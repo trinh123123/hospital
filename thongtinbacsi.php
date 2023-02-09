@@ -93,6 +93,27 @@
             </script>';
 	}
 ?>
+<style>
+    .section{
+      padding:0px;
+    }
+    #wrapper #page-content-wrapper{
+      width: 1200px;
+    }
+    #wrapper #sidebar-wrapper h5{
+      padding-top:10px;
+      margin-top:10px;
+      margin-right:10px;
+      width: 200px;
+    }
+    .footer{
+      margin-top:0px; 
+    }
+    .container-fluid{
+      padding-right:0px;
+    }
+</style>
+<body id="top">
 
 <section class="page-title bg-1">
   <div class="overlay"></div>
@@ -116,14 +137,12 @@
     .section{
       padding:0px;
     }
-    #wrapper #page-content-wrapper{
-      width: 1300px;
+    #wrapper{
+      width: 900px;
     }
     #wrapper #sidebar-wrapper h5{
       padding-top:10px;
       margin-top:10px;
-      margin-right:10px;
-      width: 200px;
     }
     .footer{
       margin-top:0px; 
@@ -144,23 +163,19 @@
                   line-height:30px;  
               }
           </style>
-          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="./thongtinbenhnhan.php?pagetrang=thongtin"
+          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="./thongtinbacsi.php?pagetrang=thongtin"
           >THÔNG TIN CÁ NHÂN</a></h5>
-          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="./thongtinbenhnhan.php?pagetrang=xemlich"
-          >LỊCH KHÁM BỆNH</a></h5>
-          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="thongtinbenhnhan.php?pagetrang=lichsu"
-          >LỊCH SỬ KHÁM BỆNH</a></h5>
-          <?php
-          include_once('Controller/cTaikhoan.php');
-          $p=new controlTaikhoan();
-              $tblmatkhau=$p->ThongTinBenhnhan($_SESSION['tendangnhap']);
-              $matkhau=mysqli_fetch_assoc($tblmatkhau);
-              if(isset($matkhau['matkhau'])){
-                echo '<h5 class="font-weight-bolder" style="padding-top:15px;"><a href="./thongtinbenhnhan.php?pagetrang=capnhattk"
-                >ĐỔI MẬT KHẨU</a></h5>';
-              }
-          ?>
-          
+          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="./thongtinbacsi.php?pagetrang=xemlich"
+          >LỊCH KHÁM</a></h5>
+          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="thongtinbacsi.php?pagetrang=lichtrong"
+          >ĐĂNG KÝ LỊCH KHÁM</a></h5>
+          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="thongtinbacsi.php?pagetrang=hosokhambenh"
+          >HỒ SƠ KHÁM BỆNH</a></h5>
+          <h5 class="font-weight-bolder" style="padding-top:15px;"><a href="./thongtinbacsi.php?pagetrang=capnhattk"
+          >ĐỐI MẬT KHẨU</a></h5>
+          <!-- <a href="#" class="list-group-item list-group-item-action " data-toggle="list">Events</a>
+          <a href="#" class="list-group-item list-group-item-action " data-toggle="list">Profile</a>
+          <a href="#" class="list-group-item list-group-item-action " data-toggle="list">Status</a> -->
         </div>
       </div>
       <div id="page-content-wrapper">
@@ -174,30 +189,34 @@
                 if (isset($_GET['pagetrang'])) {
                   switch ($_GET['pagetrang']) {
                     case 'thongtin':
-                      include ('info_benhnhan.php');
+                        include 'info_bacsi.php';
                       break;
                     case 'xemlich':
-                      if(isset($_GET['huylich'])){
-                        include ('./View/huylichbenhnhan.php');
+                      include ('View/doctor/xemlich.php');
+                      break;
+                    case 'lichtrong':
+                      if(isset($_GET['deletelichkham'])){
+                        include ('View/doctor/Vdeletelichtrong.php');
                       }
-                      else{
-                      include ('lichkhambn.php');
+                      else {
+                        include ('View/doctor/lichtrong.php');                        
                       }
                       break;
-                    case 'lichsu':
-                        include ('lichsu.php');
-                        break;
                     case 'capnhattk':
-                      include ('./doimk.php');
+                      include ('doimk.php');
                       break;
+                      case 'hosokhambenh':
+                        include ('dshosokhambenh.php');
+                        break;
                   }
-                }elseif(isset($_GET['page2'])||isset($_GET['timkiembn'])){
-                  include ('benhnhan/lichsu.php');}
-                elseif(isset($_GET['xemthuoc'])){
-                    include ('./benhnhan/xuatthuoc.php');
-                }
+                 } elseif(isset($_GET['page'])||isset($_GET['timkethuoc'])){
+                   if(isset($_POST['idlich1']))
+                     $_SESSION['idlich']=$_POST['idlich1'];
+                   include ('View/doctor/Kethuoc.php');
+                 }elseif(isset($_GET['page1'])||isset($_GET['timlichsu'])){
+                  include ('View/doctor/lichsu.php');}
                 else{
-                  include 'info_benhnhan.php';  
+                  include 'info_bacsi.php';  
                 }
               ?>
       </div>
